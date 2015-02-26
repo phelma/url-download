@@ -2,7 +2,7 @@
 // Config
 var timeout = 5000; // ms
 var paralell = 20;
-var inFile = 'head1k.txt';
+
 
 // Requirements
 var fs = require('fs');
@@ -147,11 +147,14 @@ var saveResp = function (resp, params) {
   resp.pipe(wstream);
 };
 
-// Read the file
-fs.readFile(inFile, 'utf8', function (err, data) {
-  if (err) throw err;
-  var headers = ['filename', 'url'];
-  tsvJSON(data, headers);
-});
+module.exports.urlDownload = function (inFile) {
+  counter.timer.start();
+  // Read the file
+  fs.readFile(inFile, 'utf8', function (err, data) {
+    if (err) throw err;
+    var headers = ['filename', 'url'];
+    tsvJSON(data, headers);
+  });
+};
 
 ee.on('count', getNextBatch);
