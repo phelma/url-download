@@ -7,6 +7,7 @@ var paralell = 20;
 // Requirements
 var fs = require('fs');
 var events = require('events');
+var path = require('path');
 
 // NPM Requirements
 var request = require('request');
@@ -15,6 +16,7 @@ var request = require('request');
 var ee = new events.EventEmitter();
 var createdDirs = [];
 var filesArray = [];
+var outDir = '';
 
 var counter = {
   // Keep track of things
@@ -129,14 +131,14 @@ var saveResp = function (resp, params) {
   if (createdDirs.indexOf(dirName) === -1) {
     try {
       createdDirs.push(dirName);
-      fs.mkdirSync('out/' + dirName);
+      fs.mkdirSync(path.join(outDir, dirName));
     } catch (e) {
       console.log('Error: ' + e);
     }
   }
   // writestream
   var wstream = fs
-    .createWriteStream('out/' + dirName + '/' + params.filename + '.jpg')
+    .createWriteStream(path.join(outDir, dirName, params.filename + '.jpg'))
     .on('error', function (err) {
       console.log('ERROR: ' + err);
       resp.read();
@@ -147,7 +149,8 @@ var saveResp = function (resp, params) {
   resp.pipe(wstream);
 };
 
-module.exports.executeTask = function (inFile) {
+module.exports.executeTask = function (inFile, outDir) {
+  outDir = outDir; // set outDir global
   var file = inFile || './head100.txt'; // for testing
   counter.timer.start();
   // Read the file
