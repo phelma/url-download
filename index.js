@@ -3,7 +3,6 @@
 var timeout = 5000; // ms
 var paralell = 20;
 
-
 // Requirements
 var fs = require('fs');
 var events = require('events');
@@ -149,7 +148,7 @@ var saveResp = function (resp, params) {
   resp.pipe(wstream);
 };
 
-module.exports.executeTask = function (inFile, outDir) {
+module.exports.executeTask = function (inFile, outDir, callback) {
   outDir = outDir; // set outDir global
   var file = inFile || './head100.txt'; // for testing
   counter.timer.start();
@@ -161,4 +160,13 @@ module.exports.executeTask = function (inFile, outDir) {
   });
 };
 
+var waited = false;
+var checkDone = function () {
+  if (counter.started > 1 && counter.active() === 0) {
+      console.log('Done');
+      callback();
+  }
+};
+
 ee.on('count', getNextBatch);
+ee.on('count', checkDone);
