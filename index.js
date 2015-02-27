@@ -147,7 +147,7 @@ var saveResp = function (resp, params) {
   resp.pipe(wstream);
 };
 
-module.exports.urlDownload = function (inFile) {
+module.exports.executeTask = function (inFile) {
   var file = inFile || './head100.txt'; // for testing
   counter.timer.start();
   // Read the file
