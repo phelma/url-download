@@ -131,7 +131,7 @@ var saveResp = function (resp, params) {
       createdDirs.push(dirName);
       fs.mkdirSync('out/' + dirName);
     } catch (e) {
-      console.log("Error: " + e);
+      console.log('Error: ' + e);
     }
   }
   // writestream
@@ -148,10 +148,11 @@ var saveResp = function (resp, params) {
 };
 
 module.exports.urlDownload = function (inFile) {
+  var file = inFile || './head100.txt'; // for testing
   counter.timer.start();
   // Read the file
-  fs.readFile(inFile, 'utf8', function (err, data) {
-    if (err) throw err;
+  fs.readFile(file, 'utf8', function (err, data) {
+    if (err) {throw err;}
     var headers = ['filename', 'url'];
     tsvJSON(data, headers);
   });
