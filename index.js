@@ -158,15 +158,16 @@ module.exports.executeTask = function (inFile, outDir, callback) {
     var headers = ['filename', 'url'];
     tsvJSON(data, headers);
   });
+
+  var checkDone = function () {
+    if (counter.started > 1 && counter.active() < 1) {
+        console.log('Done');
+        callback();
+    }
+  };
+  ee.on('count', checkDone);
 };
 
-var waited = false;
-var checkDone = function () {
-  if (counter.started > 1 && counter.active() === 0) {
-      console.log('Done');
-      callback();
-  }
-};
+
 
 ee.on('count', getNextBatch);
-ee.on('count', checkDone);
