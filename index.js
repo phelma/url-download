@@ -148,8 +148,8 @@ var saveResp = function (resp, params) {
   resp.pipe(wstream);
 };
 
-module.exports.executeTask = function (inFile, outDir, callback) {
-  outDir = outDir; // set outDir global
+module.exports.executeTask = function (inFile, out, callback) {
+  outDir = out; // set outDir global
   var file = inFile || './head100.txt'; // for testing
   counter.timer.start();
   // Read the file
@@ -167,7 +167,5 @@ module.exports.executeTask = function (inFile, outDir, callback) {
   };
   ee.on('count', checkDone);
 };
-
-
 
 ee.on('count', getNextBatch);
