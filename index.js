@@ -160,7 +160,7 @@ module.exports.executeTask = function (inFile, out, callback) {
   });
 
   var checkDone = function () {
-    if (counter.count > 1 && counter.active() < 1) {
+    if (counter.count > 0 && counter.active() < 1) {
         console.log('Done');
         callback();
     }
